@@ -18,9 +18,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let scene = (scene as? UIWindowScene) else { return }
         
-        // root view controller 를 MainTapController 로 설정
         window = UIWindow(windowScene: scene)
-        window?.rootViewController = MainTapController()
+        
+        // root view controller 를 MainTapController 로 설정
+        //window?.rootViewController = MainTapController()
+        
+        // root view controller 를 LoginController 로 설정
+        window?.rootViewController = UINavigationController(rootViewController: LoginController())
         window?.makeKeyAndVisible()
     }
 

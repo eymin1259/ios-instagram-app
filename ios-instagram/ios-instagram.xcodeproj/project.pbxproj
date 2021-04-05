@@ -23,6 +23,8 @@
 		A139D40825FF3124007C0084 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A139D40725FF3124007C0084 /* FeedCell.swift */; };
 		A17FFC022615B53C00BD0C51 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FFC012615B53C00BD0C51 /* LoginController.swift */; };
 		A17FFC062615B54900BD0C51 /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FFC052615B54900BD0C51 /* RegisterController.swift */; };
+		A17FFC092615E97800BD0C51 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17FFC082615E97800BD0C51 /* CustomTextField.swift */; };
+		A192A6FA261AEB1400CE4B7F /* AuthentificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A192A6F9261AEB1400CE4B7F /* AuthentificationViewModel.swift */; };
 		A1D53D68260710DD00631DF4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D53D67260710DD00631DF4 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +48,8 @@
 		A139D40725FF3124007C0084 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		A17FFC012615B53C00BD0C51 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		A17FFC052615B54900BD0C51 /* RegisterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
+		A17FFC082615E97800BD0C51 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		A192A6F9261AEB1400CE4B7F /* AuthentificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthentificationViewModel.swift; sourceTree = "<group>"; };
 		A1D53D67260710DD00631DF4 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D45BCE802ACFAEC09162B775 /* Pods-ios-instagram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios-instagram.debug.xcconfig"; path = "Target Support Files/Pods-ios-instagram/Pods-ios-instagram.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -119,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				A139D40725FF3124007C0084 /* FeedCell.swift */,
+				A17FFC082615E97800BD0C51 /* CustomTextField.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -126,6 +131,7 @@
 		A139D3EE25FEF042007C0084 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				A192A6F9261AEB1400CE4B7F /* AuthentificationViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -291,6 +297,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A17FFC092615E97800BD0C51 /* CustomTextField.swift in Sources */,
 				A139D3F525FEF994007C0084 /* MainTapController.swift in Sources */,
 				A17FFC062615B54900BD0C51 /* RegisterController.swift in Sources */,
 				A17FFC022615B53C00BD0C51 /* LoginController.swift in Sources */,
@@ -303,6 +310,7 @@
 				A139D40125FF036C007C0084 /* ImageSelectController.swift in Sources */,
 				A139D3D825FEEFD4007C0084 /* AppDelegate.swift in Sources */,
 				A1D53D68260710DD00631DF4 /* Extensions.swift in Sources */,
+				A192A6FA261AEB1400CE4B7F /* AuthentificationViewModel.swift in Sources */,
 				A139D3DA25FEEFD4007C0084 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
