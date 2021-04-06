@@ -14,10 +14,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: scene)
         
         // root view controller 를 MainTapController 로 설정
-        //window?.rootViewController = MainTapController()
+        window?.rootViewController = MainTapController()
         
         // root view controller 를 LoginController 로 설정
-        window?.rootViewController = UINavigationController(rootViewController: LoginController())
+        //window?.rootViewController = UINavigationController(rootViewController: LoginController())
         window?.makeKeyAndVisible()
     }
 

@@ -50,6 +50,15 @@ class RegisterController: UIViewController{
         return btn
     }()
     
+    private let indicator: UIActivityIndicatorView = {
+        let ai = UIActivityIndicatorView()
+        ai.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        ai.color = .white
+        ai.startAnimating()
+        ai.isHidden = true
+        return ai
+    }()
+    
     // MARK: life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +78,7 @@ class RegisterController: UIViewController{
         plusPhotoBtn.setDimensions(height: 140, width: 140)
         plusPhotoBtn.anchor(top:view.safeAreaLayoutGuide.topAnchor, paddingTop: 35)
         
-        let stackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, fullnameTextField, usernameTextField, signupBtn])
+        let stackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, fullnameTextField, usernameTextField, signupBtn, indicator])
         stackView.axis = .vertical
         stackView.spacing = 15
         
@@ -138,6 +147,8 @@ class RegisterController: UIViewController{
     }
     
     @objc func handleSingup(){
+        indicator.isHidden = false
+        
         guard let email = emailTextField.text else { return }
         guard let password = passwordTextField.text else { return }
         guard let fullname = fullnameTextField.text else { return }
@@ -150,9 +161,10 @@ class RegisterController: UIViewController{
         AuthService.registerUser(withCredentials: credentials) { (error) in
             if let error = error {
                 print("debug: failed to register user -> \(error.localizedDescription)")
+                self.indicator.isHidden = true
                 return
             }
-            print("debug : success to register user with firebase")
+            self.dismiss(animated: true, completion: nil)
         }
     }
     

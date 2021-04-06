@@ -4,6 +4,15 @@ class LoginController: UIViewController{
     
     // MARK: properties
     
+    private let indicator: UIActivityIndicatorView = {
+        let ai = UIActivityIndicatorView()
+        ai.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        ai.color = .white
+        ai.startAnimating()
+        ai.isHidden = true
+        return ai
+    }()
+    
     private var loginViewModel = LoginViewModel()
     
     private let iconImage: UIImageView = {
@@ -32,8 +41,8 @@ class LoginController: UIViewController{
         btn.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1).withAlphaComponent(0.1)
         btn.isEnabled = false
         btn.layer.cornerRadius = 5
-        
         btn.setHeight(50)
+        btn.addTarget(self, action: #selector(handlLogin), for: .touchUpInside)
         return btn
     }()
     
@@ -70,7 +79,7 @@ class LoginController: UIViewController{
         iconImage.setDimensions(height: 80, width: 120)
         iconImage.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 30)
         
-        let stackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, loginBtn, forgotPasswordBtn])
+        let stackView = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, loginBtn, forgotPasswordBtn, indicator])
         stackView.axis = .vertical
         stackView.spacing = 15
         
@@ -121,6 +130,21 @@ class LoginController: UIViewController{
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+    @objc func handlLogin() {
+        indicator.isHidden = false
+        
+        guard let email = emailTextField.text else {return}
+        guard let password = passwordTextField.text else {return}
+        AuthService.logUserIn(email: email, password: password) { (result, error) in
+            if let error = error {
+                print("debug : failed to login -> \(error.localizedDescription)")
+                self.indicator.isHidden = true
+            }
+            
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 }
 
