@@ -1,10 +1,3 @@
-//
-//  AuthentificationViewModel.swift
-//  ios-instagram
-//
-//  Created by yongmin lee on 4/5/21.
-//
-
 import UIKit
 
 protocol AuthentificationVIewModel {

@@ -1,10 +1,3 @@
-//
-//  RegisterController.swift
-//  ios-instagram
-//
-//  Created by yongmin lee on 4/1/21.
-//
-
 import UIKit
 
 class RegisterController: UIViewController{
@@ -12,6 +5,7 @@ class RegisterController: UIViewController{
     // MARK: properties
     
     private var registerViewModel = RegisterationViewModel()
+    private var profileImage: UIImage?
     
     private let plusPhotoBtn: UIButton = {
         let btn = UIButton(type: .system)
@@ -41,11 +35,11 @@ class RegisterController: UIViewController{
         btn.setTitle("Sign up", for: .normal)
         btn.setTitleColor(UIColor(white: 1, alpha: 0.2), for: .normal)
         btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-
         btn.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1).withAlphaComponent(0.1)
         btn.isEnabled = false
         btn.layer.cornerRadius = 5
         btn.setHeight(50)
+        btn.addTarget(self, action: #selector(handleSingup), for: .touchUpInside)
         return btn
     }()
     
@@ -143,6 +137,25 @@ class RegisterController: UIViewController{
         
     }
     
+    @objc func handleSingup(){
+        guard let email = emailTextField.text else { return }
+        guard let password = passwordTextField.text else { return }
+        guard let fullname = fullnameTextField.text else { return }
+        guard let username = usernameTextField.text else { return }
+        guard let profileImage = self.profileImage else {return }
+        
+        let credentials = AuthCredentials(email: email, password: password, fullname: fullname, username: username, profileImage: profileImage)
+        
+        //API
+        AuthService.registerUser(withCredentials: credentials) { (error) in
+            if let error = error {
+                print("debug: failed to register user -> \(error.localizedDescription)")
+                return
+            }
+            print("debug : success to register user with firebase")
+        }
+    }
+    
 }
 
 extension RegisterController: UIGestureRecognizerDelegate {
@@ -159,6 +172,9 @@ extension RegisterController: UIImagePickerControllerDelegate, UINavigationContr
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         guard let selectedImage = info[.editedImage] as? UIImage else {return}
+        
+        profileImage = selectedImage
+        
         plusPhotoBtn.layer.cornerRadius = plusPhotoBtn.frame.width/2
         plusPhotoBtn.layer.masksToBounds = true
         plusPhotoBtn.layer.borderColor = UIColor.white.cgColor
