@@ -1,15 +1,14 @@
 import UIKit
 
-protocol AuthentificationVIewModel {
-    // anything that confirms this AuthentificationVIewModel protocol has to implement 3 properties below
-    
+protocol AuthenticationViewModel { // bind user-input-data(local-data) to view
+    // protocol : anything that confirms this AuthenticationVIewModel protocol has to implement 3 properties below
     var formValid: Bool { get }
     var btnBackground: UIColor { get }
     var btnTitleColor: UIColor { get }
     
 }
 
-struct LoginViewModel : AuthentificationVIewModel {
+struct LoginViewModel : AuthenticationViewModel {
 
     var email: String?
     var password: String?
@@ -29,7 +28,7 @@ struct LoginViewModel : AuthentificationVIewModel {
     
 }
 
-struct RegisterationViewModel : AuthentificationVIewModel {
+struct RegisterationViewModel : AuthenticationViewModel {
     var email: String?
     var password: String?
     var fullname : String?

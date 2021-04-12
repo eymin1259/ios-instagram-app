@@ -6,6 +6,7 @@ class RegisterController: UIViewController{
     
     private var registerViewModel = RegisterationViewModel()
     private var profileImage: UIImage?
+    weak var delegate: AuthenticationDelegate?
     
     private let plusPhotoBtn: UIButton = {
         let btn = UIButton(type: .system)
@@ -164,7 +165,13 @@ class RegisterController: UIViewController{
                 self.indicator.isHidden = true
                 return
             }
-            self.dismiss(animated: true, completion: nil)
+            
+            
+            // 회원가입이 되면 self.delegate는 authenticationDidComplete() 실행
+            // self.delegate -> MainTapController
+            // authenticationDidComplete() -> fetch user data and dismiss authentication controller
+            self.delegate?.authenticationDidComplete()
+         
         }
     }
     

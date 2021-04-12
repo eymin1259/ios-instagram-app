@@ -14,7 +14,7 @@ struct AuthService {
     static func registerUser(withCredentials credentials: AuthCredentials, completion: @escaping(Error?)->Void){
         // 1. upload image to Firebase-Storage
         ImageUploader.uploadImage(image: credentials.profileImage) { (imageUrl) in
-            // 2. upload auth information to Firebase-Authentification
+            // 2. upload auth information to Firebase-Authentication
             Auth.auth().createUser(withEmail: credentials.email, password: credentials.password) { (result, error) in
                 
                 if let error = error {
@@ -33,7 +33,7 @@ struct AuthService {
                 // 3-2. create or access to "users" collection
                 // 3-3. create "uid" document in the "users" collection
                 // 3-4. set data in the "uid" document
-                Firestore.firestore().collection("users").document(uid).setData(data, completion: completion)
+                COLLECTION_USERS.document(uid).setData(data, completion: completion) // COLLECTION_USERS =  Firestore.firestore().collection("users")
             }
         }
     }

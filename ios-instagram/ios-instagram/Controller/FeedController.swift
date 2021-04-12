@@ -20,7 +20,7 @@ class FeedController : UICollectionViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
         
-        navigationItem.title = "Feed"
+        navigationItem.title = "Feeds"
     }
     
     //MARK: actions
@@ -28,6 +28,11 @@ class FeedController : UICollectionViewController {
     @objc func handleLogout() {
         do {
             try Auth.auth().signOut()
+            let controller = LoginController()
+            controller.delegate = self.tabBarController as? MainTapController
+            let nav = UINavigationController(rootViewController: controller)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true, completion: nil)
             print("debug : success to logout")
         }catch {
             print("debug : failed to logout")

@@ -1,8 +1,17 @@
 import UIKit
 
+protocol AuthenticationDelegate: class {
+    // 로그인이 완료되고 넘어가는 MainTapController에서 user data fetch를 실행시키기위해
+    // MainTapController에서 실행할 함수를 protocol에서 정의
+    func authenticationDidComplete()
+}
+
 class LoginController: UIViewController{
     
     // MARK: properties
+    private var loginViewModel = LoginViewModel()
+    weak var delegate: AuthenticationDelegate?
+    
     
     private let indicator: UIActivityIndicatorView = {
         let ai = UIActivityIndicatorView()
@@ -12,8 +21,6 @@ class LoginController: UIViewController{
         ai.isHidden = true
         return ai
     }()
-    
-    private var loginViewModel = LoginViewModel()
     
     private let iconImage: UIImageView = {
         let iv = UIImageView(image: #imageLiteral(resourceName: "Instagram_logo_white"))
@@ -42,7 +49,7 @@ class LoginController: UIViewController{
         btn.isEnabled = false
         btn.layer.cornerRadius = 5
         btn.setHeight(50)
-        btn.addTarget(self, action: #selector(handlLogin), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         return btn
     }()
     
@@ -109,7 +116,9 @@ class LoginController: UIViewController{
     
     // MARK: actions
     @objc func handleShowSignUp() {
+        
         let controller = RegisterController()
+        controller.delegate = delegate
         navigationController?.pushViewController(controller, animated: true)
         // window?.rootViewController = UINavigationController(rootViewController: LoginController())
     }
@@ -132,7 +141,7 @@ class LoginController: UIViewController{
         view.endEditing(true)
     }
     
-    @objc func handlLogin() {
+    @objc func handleLogin() {
         indicator.isHidden = false
         
         guard let email = emailTextField.text else {return}
@@ -142,8 +151,11 @@ class LoginController: UIViewController{
                 print("debug : failed to login -> \(error.localizedDescription)")
                 self.indicator.isHidden = true
             }
+            // 로그인이 되면 self.delegate는 authenticationDidComplete() 실행
+            // self.delegate -> MainTapController
+            // authenticationDidComplete() -> fetch user data and dismiss authentication controller
+            self.delegate?.authenticationDidComplete()
             
-            self.dismiss(animated: true, completion: nil)
         }
     }
 }
