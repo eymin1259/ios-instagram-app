@@ -25,8 +25,31 @@ struct UserService {
         }else {
             print("deubg : there is no current_uid")
         }
-        
-        
-        
     }
+    
+    static func fetchUsers(completion: @escaping([User]) ->Void) {
+        COLLECTION_USERS.getDocuments { (snapshot, error) in
+            if let error = error {
+                print("debug :   COLLECTION_USERS.getDocuments error -> \(error.localizedDescription)")
+                return
+            }
+            
+            guard let snapshot = snapshot else {return}
+            var users = [User]()
+            snapshot.documents.forEach { (document) in
+                let user = User(dictionary: document.data())
+                users.append(user)
+            }
+            
+//            let users = snapshot.documents.map( {User(dictionary: $0.data())} ) // $0 : each element
+            
+            
+            
+            completion(users)
+            
+            
+            
+        }
+    }
+
 }
