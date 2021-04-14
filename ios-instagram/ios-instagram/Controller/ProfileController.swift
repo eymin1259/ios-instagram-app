@@ -2,6 +2,7 @@ import UIKit
 
 private let cellIdentifier = "profileCell"
 private let headerIdentifier = "profileHeader"
+
 class ProfileController : UICollectionViewController {
     
     //MARK: properties
@@ -21,8 +22,16 @@ class ProfileController : UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
+        checkIfUserIsFollowed()
     }
     
+    // MARK: api
+    func checkIfUserIsFollowed() {
+        UserService.checkIfUserIsFollowed(uid: user.uid) { (isFollowed) in
+            self.user.isFollowed = isFollowed
+            self.collectionView.reloadData()
+        }
+    }
     
     // MARK: helpers
     func configureCollectionView(){
@@ -51,7 +60,7 @@ extension ProfileController {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! ProfileHeader
         
         header.profileHeaderViewModel = ProfileHeaderViewModel(user: self.user)
-        
+        header.delegate = self
         return header
     }
 }
@@ -86,4 +95,26 @@ extension ProfileController: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 240)
     }
+}
+
+extension ProfileController: ProfileHeaderDelegate {
+    
+    func header(_ profileHeader: ProfileHeader, didTapActionBtnFor user: User) {
+        
+        if user.isCurrentUser {
+            print("debug : show edit profile")
+        }
+        else if user.isFollowed {
+            UserService.unFollow(uid: user.uid) { (error) in
+                self.user.isFollowed = false
+                self.collectionView.reloadData() // update ui
+            }
+        }else {
+            UserService.follow(uid: user.uid) { (error) in
+                self.user.isFollowed = true
+                self.collectionView.reloadData() // update ui
+            }
+        }
+    }
+
 }

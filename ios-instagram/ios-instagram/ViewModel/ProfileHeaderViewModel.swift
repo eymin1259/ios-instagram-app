@@ -5,7 +5,7 @@
 //  Created by yongmin lee on 4/12/21.
 //
 
-import Foundation
+import UIKit
 
 struct ProfileHeaderViewModel { // bind user-object(firebase-data) to view
     
@@ -15,12 +15,30 @@ struct ProfileHeaderViewModel { // bind user-object(firebase-data) to view
         return user.profileImage
     }
     
-    var fullnmae: String{
+    var fullname: String{
         return user.fullname
     }
     
     var profileImageUrl: URL? {
         return URL(string: user.profileImage)
+    }
+    
+    var followButtonText: String {
+        if user.isCurrentUser {
+            return "Edit Profile"
+        }
+        else {
+            return user.isFollowed ? "Following" : "Follow"
+        }
+        
+    }
+    
+    var followButtonBackgroundColor: UIColor{
+        return user.isCurrentUser ? .white : .systemBlue
+    }
+    
+    var followButtonTextColor: UIColor {
+        return user.isCurrentUser ? .black : .white
     }
     
     init(user: User) {

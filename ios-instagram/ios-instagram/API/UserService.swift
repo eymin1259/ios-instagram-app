@@ -7,6 +7,7 @@
 
 import Firebase
 
+
 struct UserService {
     static func fetchUser(completion: @escaping (User) -> Void) {
 
@@ -50,6 +51,45 @@ struct UserService {
             
             
         }
+    }
+    
+    // user A 가 user B 를 follow
+    // currentUid = A
+    // uid =  B
+    static func follow(uid: String, completion: @escaping(Error?)->Void ){
+        
+        guard let currentUid = Auth.auth().currentUser?.uid else {return}
+        
+        // A document안에 B를 따른다고 저장
+        COLLECTION_FOLLOWING.document(currentUid).collection("user-following").document(uid).setData([:]) { (error) in
+            
+            // B document안에 A가 따르고 있다고 저장
+            COLLECTION_FOLLOWERS.document(uid).collection("user-followers").document(currentUid).setData([:], completion: completion)
+        }
+        
+        
+    }
+    
+    static func unFollow(uid: String, completion: @escaping(Error?)->Void ){
+        guard  let currentUid = Auth.auth().currentUser?.uid else {return}
+        
+        COLLECTION_FOLLOWING.document(currentUid).collection("user-following").document(uid).delete { (error) in
+            COLLECTION_FOLLOWERS.document(uid).collection("user-followers").document(currentUid).delete(completion: completion)
+        }
+    }
+    
+    static func checkIfUserIsFollowed(uid: String, completion: @escaping(Bool) -> Void){
+        guard let currentUid = Auth.auth().currentUser?.uid else {return}
+        
+        COLLECTION_FOLLOWING.document(currentUid).collection("user-following").document(uid).getDocument { (snapshot, error) in
+            
+            if let isFollowed = snapshot?.exists {
+                completion(isFollowed)
+            }
+            
+        }
+        
+        
     }
 
 }

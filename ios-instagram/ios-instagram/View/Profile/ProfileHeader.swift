@@ -8,6 +8,11 @@
 import UIKit
 import SDWebImage
 
+protocol ProfileHeaderDelegate: class {
+    func header(_ profileHeader: ProfileHeader, didTapActionBtnFor user: User)
+}
+
+
 class ProfileHeader: UICollectionReusableView {
     
     //MARK: properties
@@ -15,6 +20,8 @@ class ProfileHeader: UICollectionReusableView {
     var profileHeaderViewModel: ProfileHeaderViewModel? {
         didSet { configure() }
     }
+    
+    weak var delegate: ProfileHeaderDelegate?
     
     private let profileImageView: UIImageView = {
        let iv = UIImageView()
@@ -35,7 +42,7 @@ class ProfileHeader: UICollectionReusableView {
     
     private lazy var editProfileBtn: UIButton = {
         let btn = UIButton()
-        btn.setTitle("edit profile", for: .normal)
+        btn.setTitle("loading..", for: .normal)
         btn.layer.cornerRadius = 3
         btn.layer.borderColor = UIColor.lightGray.cgColor
         btn.layer.borderWidth = 0.5
@@ -140,6 +147,8 @@ class ProfileHeader: UICollectionReusableView {
     //MARK: actions
     @objc func handleEditProfileBtn(){
         print("debug : handleEditProfileBtn")
+        guard let viewModel = profileHeaderViewModel else {return}
+        self.delegate?.header(self, didTapActionBtnFor: viewModel.user)
     }
     
     //MARK: helpers
@@ -152,11 +161,13 @@ class ProfileHeader: UICollectionReusableView {
     
     func configure(){
         guard let viewModel = self.profileHeaderViewModel else {return}
-        nameLabel.text = viewModel.fullnmae
+        nameLabel.text = viewModel.fullname
         profileImageView.sd_setImage(with: viewModel.profileImageUrl)
+        editProfileBtn.setTitle(viewModel.followButtonText, for: .normal)
+        editProfileBtn.backgroundColor = viewModel.followButtonBackgroundColor
+        editProfileBtn.setTitleColor(viewModel.followButtonTextColor, for: .normal)
         
         
     }
    
 }
-
