@@ -64,7 +64,6 @@ class ProfileHeader: UICollectionReusableView {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
-        label.attributedText = attributedStatText(val: 2, label: "followers")
         return label
     }()
     
@@ -72,7 +71,6 @@ class ProfileHeader: UICollectionReusableView {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
-        label.attributedText = attributedStatText(val: 1, label: "following")
         return label
     }()
     
@@ -167,6 +165,8 @@ class ProfileHeader: UICollectionReusableView {
         editProfileBtn.backgroundColor = viewModel.followButtonBackgroundColor
         editProfileBtn.setTitleColor(viewModel.followButtonTextColor, for: .normal)
         
+        followerLabel.attributedText = attributedStatText(val: viewModel.numberOfFollowers, label: "followers")
+        followingLabel.attributedText = attributedStatText(val: viewModel.numberOfFollowing, label: "following")
         
     }
    
