@@ -1,8 +1,15 @@
 import UIKit
 
+// FeedCell의 정보를 FeedController를 거쳐 CommentController에게 전달하기 위해서 구현
+protocol FeedCellDelegate: class {
+    func cell(_ cell:FeedCell, wantsToShowCommentsOf post : Post)
+}
+
 class FeedCell: UICollectionViewCell {
     
     // MARK: properties
+    
+    var delegate : FeedCellDelegate?
     
     var postViewModel : PostViewModel? {
         didSet {configure()}
@@ -47,6 +54,7 @@ class FeedCell: UICollectionViewCell {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "comment"), for: .normal)
         button.tintColor = .black
+        button.addTarget(self, action: #selector(handleCommentBtn), for: .touchUpInside)
         return button
     }()
     
@@ -130,6 +138,12 @@ class FeedCell: UICollectionViewCell {
     
     @objc func didTapUsername() {
             print("did tap username!")
+    }
+    
+    @objc func handleCommentBtn() {
+        
+        guard let postViewModel = postViewModel else { return}
+        delegate?.cell(self, wantsToShowCommentsOf: postViewModel.post)
     }
     
     // MARK: helpers

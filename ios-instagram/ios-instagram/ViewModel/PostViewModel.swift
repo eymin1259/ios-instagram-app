@@ -8,7 +8,7 @@
 import Foundation
 
 struct PostViewModel {
-    private var post : Post
+     var post : Post
     
     var imageUrl : URL? {
         

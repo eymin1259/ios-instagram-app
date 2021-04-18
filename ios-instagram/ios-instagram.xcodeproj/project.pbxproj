@@ -26,6 +26,8 @@
 		A13A2B0D262BF15B00330860 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13A2B0C262BF15B00330860 /* PostService.swift */; };
 		A13A2B10262C0AAD00330860 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13A2B0F262C0AAD00330860 /* Post.swift */; };
 		A13A2B13262C106B00330860 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13A2B12262C106B00330860 /* PostViewModel.swift */; };
+		A13A2B1A262C4BFA00330860 /* CommentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13A2B19262C4BFA00330860 /* CommentController.swift */; };
+		A13A2B1D262C4E0E00330860 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13A2B1C262C4E0E00330860 /* CommentCell.swift */; };
 		A17DD2FF261BF7C300FEF1B2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A17DD2FE261BF7C300FEF1B2 /* GoogleService-Info.plist */; };
 		A17DD321261C0A3A00FEF1B2 /* ImageUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17DD320261C0A3A00FEF1B2 /* ImageUploader.swift */; };
 		A17DD324261C0A4700FEF1B2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17DD323261C0A4700FEF1B2 /* AuthService.swift */; };
@@ -67,6 +69,8 @@
 		A13A2B0C262BF15B00330860 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
 		A13A2B0F262C0AAD00330860 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		A13A2B12262C106B00330860 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
+		A13A2B19262C4BFA00330860 /* CommentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentController.swift; sourceTree = "<group>"; };
+		A13A2B1C262C4E0E00330860 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		A17DD2FE261BF7C300FEF1B2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		A17DD320261C0A3A00FEF1B2 /* ImageUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploader.swift; sourceTree = "<group>"; };
 		A17DD323261C0A4700FEF1B2 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -161,6 +165,7 @@
 				A139D40725FF3124007C0084 /* FeedCell.swift */,
 				A17FFC082615E97800BD0C51 /* CustomTextField.swift */,
 				A1A187D926254163007A07F7 /* UserCell.swift */,
+				A13A2B1C262C4E0E00330860 /* CommentCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -187,6 +192,7 @@
 				A139D3FD25FF0351007C0084 /* NotificationController.swift */,
 				A139D40325FF0381007C0084 /* ProfileController.swift */,
 				A13A2B06262ABF3600330860 /* UploadPostController.swift */,
+				A13A2B19262C4BFA00330860 /* CommentController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -357,6 +363,7 @@
 				A13A2B13262C106B00330860 /* PostViewModel.swift in Sources */,
 				A17FFC092615E97800BD0C51 /* CustomTextField.swift in Sources */,
 				A17DD32A261C77A900FEF1B2 /* ProfileHeader.swift in Sources */,
+				A13A2B1A262C4BFA00330860 /* CommentController.swift in Sources */,
 				A13A2B07262ABF3600330860 /* UploadPostController.swift in Sources */,
 				A139D3F525FEF994007C0084 /* MainTapController.swift in Sources */,
 				A17FFC062615B54900BD0C51 /* RegisterController.swift in Sources */,
@@ -384,6 +391,7 @@
 				A17DD327261C779E00FEF1B2 /* ProfileCell.swift in Sources */,
 				A192A6FA261AEB1400CE4B7F /* AuthenticationViewModel.swift in Sources */,
 				A139D3DA25FEEFD4007C0084 /* SceneDelegate.swift in Sources */,
+				A13A2B1D262C4E0E00330860 /* CommentCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
