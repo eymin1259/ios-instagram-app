@@ -21,6 +21,11 @@
 		A139D40125FF036C007C0084 /* ImageSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A139D40025FF036C007C0084 /* ImageSelectController.swift */; };
 		A139D40425FF0381007C0084 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A139D40325FF0381007C0084 /* ProfileController.swift */; };
 		A139D40825FF3124007C0084 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A139D40725FF3124007C0084 /* FeedCell.swift */; };
+		A13A2B07262ABF3600330860 /* UploadPostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13A2B06262ABF3600330860 /* UploadPostController.swift */; };
+		A13A2B0A262AC21B00330860 /* InputTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13A2B09262AC21B00330860 /* InputTextView.swift */; };
+		A13A2B0D262BF15B00330860 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13A2B0C262BF15B00330860 /* PostService.swift */; };
+		A13A2B10262C0AAD00330860 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13A2B0F262C0AAD00330860 /* Post.swift */; };
+		A13A2B13262C106B00330860 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13A2B12262C106B00330860 /* PostViewModel.swift */; };
 		A17DD2FF261BF7C300FEF1B2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A17DD2FE261BF7C300FEF1B2 /* GoogleService-Info.plist */; };
 		A17DD321261C0A3A00FEF1B2 /* ImageUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17DD320261C0A3A00FEF1B2 /* ImageUploader.swift */; };
 		A17DD324261C0A4700FEF1B2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17DD323261C0A4700FEF1B2 /* AuthService.swift */; };
@@ -57,6 +62,11 @@
 		A139D40025FF036C007C0084 /* ImageSelectController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectController.swift; sourceTree = "<group>"; };
 		A139D40325FF0381007C0084 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		A139D40725FF3124007C0084 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
+		A13A2B06262ABF3600330860 /* UploadPostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPostController.swift; sourceTree = "<group>"; };
+		A13A2B09262AC21B00330860 /* InputTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextView.swift; sourceTree = "<group>"; };
+		A13A2B0C262BF15B00330860 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
+		A13A2B0F262C0AAD00330860 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		A13A2B12262C106B00330860 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		A17DD2FE261BF7C300FEF1B2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		A17DD320261C0A3A00FEF1B2 /* ImageUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploader.swift; sourceTree = "<group>"; };
 		A17DD323261C0A4700FEF1B2 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -139,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				A1A187CE2623EC50007A07F7 /* User.swift */,
+				A13A2B0F262C0AAD00330860 /* Post.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -160,6 +171,7 @@
 				A192A6F9261AEB1400CE4B7F /* AuthenticationViewModel.swift */,
 				A1A187D12623F5E4007A07F7 /* ProfileHeaderViewModel.swift */,
 				A1A187DC2625B4B6007A07F7 /* UserCellViewModel.swift */,
+				A13A2B12262C106B00330860 /* PostViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -174,6 +186,7 @@
 				A139D40025FF036C007C0084 /* ImageSelectController.swift */,
 				A139D3FD25FF0351007C0084 /* NotificationController.swift */,
 				A139D40325FF0381007C0084 /* ProfileController.swift */,
+				A13A2B06262ABF3600330860 /* UploadPostController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -184,6 +197,7 @@
 				A17DD320261C0A3A00FEF1B2 /* ImageUploader.swift */,
 				A17DD323261C0A4700FEF1B2 /* AuthService.swift */,
 				A1A187C62623E45D007A07F7 /* UserService.swift */,
+				A13A2B0C262BF15B00330860 /* PostService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -193,6 +207,7 @@
 			children = (
 				A1D53D67260710DD00631DF4 /* Extensions.swift */,
 				A1A187C92623E48C007A07F7 /* Constants.swift */,
+				A13A2B09262AC21B00330860 /* InputTextView.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -339,8 +354,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A13A2B13262C106B00330860 /* PostViewModel.swift in Sources */,
 				A17FFC092615E97800BD0C51 /* CustomTextField.swift in Sources */,
 				A17DD32A261C77A900FEF1B2 /* ProfileHeader.swift in Sources */,
+				A13A2B07262ABF3600330860 /* UploadPostController.swift in Sources */,
 				A139D3F525FEF994007C0084 /* MainTapController.swift in Sources */,
 				A17FFC062615B54900BD0C51 /* RegisterController.swift in Sources */,
 				A17FFC022615B53C00BD0C51 /* LoginController.swift in Sources */,
@@ -353,13 +370,16 @@
 				A1A187CF2623EC50007A07F7 /* User.swift in Sources */,
 				A139D40425FF0381007C0084 /* ProfileController.swift in Sources */,
 				A1A187D22623F5E4007A07F7 /* ProfileHeaderViewModel.swift in Sources */,
+				A13A2B0A262AC21B00330860 /* InputTextView.swift in Sources */,
 				A1A187CA2623E48C007A07F7 /* Constants.swift in Sources */,
 				A139D40125FF036C007C0084 /* ImageSelectController.swift in Sources */,
 				A1A187DD2625B4B6007A07F7 /* UserCellViewModel.swift in Sources */,
 				A139D3D825FEEFD4007C0084 /* AppDelegate.swift in Sources */,
 				A1D53D68260710DD00631DF4 /* Extensions.swift in Sources */,
 				A17DD321261C0A3A00FEF1B2 /* ImageUploader.swift in Sources */,
+				A13A2B10262C0AAD00330860 /* Post.swift in Sources */,
 				A17DD324261C0A4700FEF1B2 /* AuthService.swift in Sources */,
+				A13A2B0D262BF15B00330860 /* PostService.swift in Sources */,
 				A1A187C72623E45D007A07F7 /* UserService.swift in Sources */,
 				A17DD327261C779E00FEF1B2 /* ProfileCell.swift in Sources */,
 				A192A6FA261AEB1400CE4B7F /* AuthenticationViewModel.swift in Sources */,

@@ -41,6 +41,10 @@ struct ProfileHeaderViewModel { // bind user-object(firebase-data) to view
         return user.stats.following
     }
     
+    var numberOfPosts: Int {
+        return user.stats.posts
+    }
+    
     var followButtonBackgroundColor: UIColor{
         return user.isCurrentUser ? .white : .systemBlue
     }

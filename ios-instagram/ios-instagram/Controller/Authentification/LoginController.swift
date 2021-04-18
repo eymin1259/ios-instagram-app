@@ -147,9 +147,11 @@ class LoginController: UIViewController{
         guard let email = emailTextField.text else {return}
         guard let password = passwordTextField.text else {return}
         AuthService.logUserIn(email: email, password: password) { (result, error) in
+            self.indicator.isHidden = true
+
             if let error = error {
                 print("debug : failed to login -> \(error.localizedDescription)")
-                self.indicator.isHidden = true
+                return
             }
             // 로그인이 되면 self.delegate는 authenticationDidComplete() 실행
             // self.delegate -> MainTapController

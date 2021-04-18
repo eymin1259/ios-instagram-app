@@ -3,19 +3,25 @@ import UIKit
 class FeedCell: UICollectionViewCell {
     
     // MARK: properties
+    
+    var postViewModel : PostViewModel? {
+        didSet {configure()}
+    }
+    
+    
     private let profileImageView: UIImageView = {
         let imgView = UIImageView()
         imgView.contentMode = .scaleAspectFill
         imgView.clipsToBounds = true
         imgView.isUserInteractionEnabled = true
-        imgView.image = #imageLiteral(resourceName: "venom-7")
+        imgView.backgroundColor = .lightGray
+      //  imgView.image = #imageLiteral(resourceName: "venom-7")
         return imgView
     }()
     
     private lazy var usernameButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitleColor(.black, for: .normal)
-        button.setTitle("userName", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
         button.addTarget(self, action: #selector(didTapUsername), for: .touchUpInside)
         return button
@@ -26,7 +32,7 @@ class FeedCell: UICollectionViewCell {
         imgView.contentMode = .scaleAspectFill
         imgView.clipsToBounds = true
         imgView.isUserInteractionEnabled = true
-        imgView.image = #imageLiteral(resourceName: "venom-7")
+     //   imgView.image = #imageLiteral(resourceName: "venom-7")
         return imgView
     }()
     
@@ -60,7 +66,7 @@ class FeedCell: UICollectionViewCell {
     
     private let captionLabel: UILabel = {
         let label = UILabel()
-        label.text = "this is caption text!!"
+        //label.text = "this is caption text"
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
@@ -111,6 +117,17 @@ class FeedCell: UICollectionViewCell {
     
     // MARK: actions
     
+    func configure() {
+        guard let postViewModel = self.postViewModel else { return}
+        
+        captionLabel.text = postViewModel.caption
+        postImageView.sd_setImage(with: postViewModel.imageUrl)
+        profileImageView.sd_setImage(with: postViewModel.userProfileImageUrl)
+        usernameButton.setTitle(postViewModel.username, for: .normal)
+        likeLabel.text = postViewModel.likesLabelText
+        
+    }
+    
     @objc func didTapUsername() {
             print("did tap username!")
     }
@@ -121,6 +138,7 @@ class FeedCell: UICollectionViewCell {
         let stackView = UIStackView(arrangedSubviews: [likeButton, commentButton, shareButton])
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
+        
         
         addSubview(stackView)
         stackView.anchor(top:postImageView.bottomAnchor, width: 120, height: 50)

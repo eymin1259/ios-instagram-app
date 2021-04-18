@@ -1,5 +1,6 @@
 import UIKit
 import Firebase
+import YPImagePicker
 
 class MainTapController: UITabBarController {
     
@@ -48,6 +49,7 @@ class MainTapController: UITabBarController {
     
     private func configureControllers(withUser user: User) {
         view.backgroundColor = .systemGray
+        self.delegate = self
         
         let collectionViewLayout = UICollectionViewFlowLayout() // UICollectionView must be initialized with a non-nil layout parameter
         let feedCtrl = templateNavigationController(unselectedImage: #imageLiteral(resourceName: "home_unselected"), selectedImage: #imageLiteral(resourceName: "home_selected"), rootViewController: FeedController(collectionViewLayout: collectionViewLayout))
@@ -73,6 +75,22 @@ class MainTapController: UITabBarController {
         return nav
     }
     
+    private func didFinishPickingMedia(_ picker: YPImagePicker) {
+        picker.didFinishPicking { (items, _) in
+            picker.dismiss(animated: false) {
+                guard let selectedImage = items.singlePhoto?.image else {return}
+                
+                let controller = UploadPostController()
+                controller.selectedImage = selectedImage
+                controller.delegate = self
+                controller.currendUid = self.user
+                let nav = UINavigationController(rootViewController: controller)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: false, completion: nil)
+            }
+        }
+    }
+    
     
 }
 
@@ -81,6 +99,53 @@ extension MainTapController: AuthenticationDelegate {
         print("debug: ahtentication did complete -> fetch user and update in MainTapController")
         fetchUser()
         self.dismiss(animated: true, completion: nil) // dismiss authentication controllers
+        
+    }
+}
+
+extension MainTapController : UITabBarControllerDelegate {
+    
+    // get the index of view controller in tabbar controller
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        let index = viewControllers?.firstIndex(of: viewController)
+        
+        if index == 2 {
+            
+            // YPImagePicker : select image from photo gallery ( "Privacy - Photo Library Usage Description" is required)
+            var config = YPImagePickerConfiguration()
+            config.library.mediaType = .photo
+            config.shouldSaveNewPicturesToAlbum = false
+            config.startOnScreen = .library
+            config.screens = [.library]
+            config.hidesStatusBar = false
+            config.hidesBottomBar = false
+            config.library.maxNumberOfItems = 1
+            
+            let picker = YPImagePicker(configuration: config)
+            picker.modalPresentationStyle = .fullScreen
+            present(picker, animated: true, completion: nil)
+            
+            didFinishPickingMedia(picker)
+            
+        }
+        
+        return true
+    }
+}
+
+// MARK: UploadPostControllerDelegate
+extension MainTapController: UploadPostControllerDelegate {
+    func cnotrollerDidFinishUploadPost(_ controller: UploadPostController) {
+        
+        selectedIndex = 0         // after uploading post, go to UITabBarController
+        
+        controller.dismiss(animated: true, completion: nil)
+        
+        guard let feedNav = viewControllers?.first as? UINavigationController else {return}
+        guard let feedCtrl = feedNav.viewControllers.first as? FeedController else {return}
+        feedCtrl.handleRefresh()
+        
+        
         
     }
 }

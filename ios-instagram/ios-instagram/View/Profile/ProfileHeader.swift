@@ -56,7 +56,7 @@ class ProfileHeader: UICollectionReusableView {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
-        label.attributedText = attributedStatText(val: 5, label: "posts")
+        //label.attributedText = attributedStatText(val: 5, label: "posts")
         return label
     }()
     
@@ -167,6 +167,7 @@ class ProfileHeader: UICollectionReusableView {
         
         followerLabel.attributedText = attributedStatText(val: viewModel.numberOfFollowers, label: "followers")
         followingLabel.attributedText = attributedStatText(val: viewModel.numberOfFollowing, label: "following")
+        postsLabel.attributedText = attributedStatText(val: viewModel.numberOfPosts, label: "posts")
         
     }
    

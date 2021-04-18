@@ -160,9 +160,10 @@ class RegisterController: UIViewController{
         
         //API
         AuthService.registerUser(withCredentials: credentials) { (error) in
+            self.indicator.isHidden = true
+
             if let error = error {
                 print("debug: failed to register user -> \(error.localizedDescription)")
-                self.indicator.isHidden = true
                 return
             }
             

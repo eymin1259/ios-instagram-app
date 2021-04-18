@@ -6,7 +6,10 @@ private let headerIdentifier = "profileHeader"
 class ProfileController : UICollectionViewController {
     
     //MARK: properties
+    private var posts = [Post]() // empty post array
+ 
     private var user: User
+    
     
     //MARK: lifecycle
     init(withUser user:User){
@@ -24,6 +27,7 @@ class ProfileController : UICollectionViewController {
         configureCollectionView()
         checkIfUserIsFollowed()
         fetchUserStats()
+        fetchPosts()
         
     }
     
@@ -42,6 +46,13 @@ class ProfileController : UICollectionViewController {
         }
     }
     
+    func fetchPosts() {
+        PostService.fetchPosts(forUser: self.user.uid) { (posts) in
+            self.posts = posts
+            self.collectionView.reloadData()
+        }
+    }
+    
     // MARK: helpers
     func configureCollectionView(){
         collectionView.backgroundColor = .white
@@ -55,12 +66,13 @@ class ProfileController : UICollectionViewController {
 // how we set up the data source
 extension ProfileController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 9
+        return posts.count
     }
     
     // tell the collectionview what cell to render
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ProfileCell
+        cell.viewModel = PostViewModel(post: self.posts[indexPath.row])
         return cell 
     }
     
@@ -77,6 +89,16 @@ extension ProfileController {
 //MARK: UICollectionViewDelegate
 // select items in the collection view
 extension ProfileController{
+    
+   // if a post of user is selected
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("debug : selected post is \(posts[indexPath.row].caption)")
+        
+        let feedCtrl = FeedController(collectionViewLayout: UICollectionViewFlowLayout())
+        feedCtrl.post = posts[indexPath.row]
+        navigationController?.pushViewController(feedCtrl, animated: true)
+        
+    }
     
 }
 

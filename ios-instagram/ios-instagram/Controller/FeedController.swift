@@ -4,26 +4,61 @@ import Firebase
 private let reuseIdentifier = "cell"
 
 class FeedController : UICollectionViewController {
+    
+    //MARK: properties
+    
+    
+    var posts = [Post]() // empty post array
+    var post : Post?
+    
     // MARK: LifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureUI()
+        fetchPosts()
+    }
+    
+    //MARK : api
+    func fetchPosts(){
+        guard post == nil else {
+            print("debug :  no fetch Posts")
+            return
+        }
+        
+        PostService.fetchPosts { (posts) in
+            self.posts = posts
+            self.collectionView.reloadData()
+        }
     }
     
     // MARK: Helpers
     
-    private func configureUI() {
+     func configureUI() {
         collectionView.backgroundColor = .white
         
         collectionView.register(FeedCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
+        if post == nil {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
+        }
         
         navigationItem.title = "Feeds"
+        
+        let refresher = UIRefreshControl()
+        refresher.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        collectionView.refreshControl = refresher
+        
     }
     
     //MARK: actions
+    
+    @objc func handleRefresh() {
+        posts.removeAll()
+        collectionView.refreshControl?.endRefreshing()
+        self.fetchPosts()
+    }
     
     @objc func handleLogout() {
         do {
@@ -45,13 +80,20 @@ extension FeedController {
     
     // deifine how many cell to create
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return post == nil ? posts.count : 1
     }
     
     //define each cell in collectionview
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! FeedCell
-        //cell.backgroundColor = .systemRed
+        
+        if let post = post {
+            cell.postViewModel = PostViewModel(post: post)
+        }else {
+            cell.postViewModel = PostViewModel(post: self.posts[indexPath.row])
+        }
+        
+        
         return cell
     }
 }
