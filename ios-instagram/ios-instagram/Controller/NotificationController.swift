@@ -22,7 +22,7 @@ class NotificationController: UITableViewController {
     
     func configureUI(){
         
-        navigationItem.title = " Notifications"
+        navigationItem.title = "Notifications"
         
         tableView.register(NotificationCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.rowHeight = 80

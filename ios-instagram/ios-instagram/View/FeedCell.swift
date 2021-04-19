@@ -88,7 +88,6 @@ class FeedCell: UICollectionViewCell {
     
     private let postTimeLabel: UILabel = {
         let label = UILabel()
-        label.text = "2 days ago"
         label.font = UIFont.systemFont(ofSize: 12)
         label.textColor = .systemGray
         return label
@@ -141,6 +140,11 @@ class FeedCell: UICollectionViewCell {
         usernameButton.setTitle(postViewModel.username, for: .normal)
         likeLabel.text = postViewModel.likesLabelText
         likeButton.setImage(postViewModel.likeBtnImage, for: .normal)
+        
+        if let timestamp = postViewModel.timestampString {
+            postTimeLabel.text = "\(timestamp) ago"
+        }
+        
         
         if postViewModel.post.didLike {
             likeButton.contentVerticalAlignment = .center

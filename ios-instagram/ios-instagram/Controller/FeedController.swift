@@ -6,10 +6,13 @@ private let reuseIdentifier = "cell"
 class FeedController : UICollectionViewController {
     
     //MARK: properties
-    
-    
-    var posts = [Post]()
-    var post : Post?
+    var posts = [Post]() // FeedController with posts
+    var post : Post? {  // FeedController with a single post
+        didSet {
+            self.collectionView.reloadData()
+
+        }
+    }
     
     // MARK: LifeCycle
     
@@ -18,6 +21,10 @@ class FeedController : UICollectionViewController {
         
         configureUI()
         fetchPosts()
+        
+        if self.post != nil {  // FeedController with a single post
+            chekcIfUserLikePosts()
+        }
     }
     
     //MARK : api
@@ -35,14 +42,18 @@ class FeedController : UICollectionViewController {
     }
     
     func chekcIfUserLikePosts() {
-        self.posts.forEach { (post) in
+        if let post = post {
             PostService.chekcIfUserLikePost(post: post) { (didLike) in
-                //print("debug : does user like \(post.caption) ? -> \(didLike)")
-                if let index = self.posts.firstIndex(where: { $0.postId == post.postId }) {
-                    self.posts[index].didLike = didLike
+                self.post?.didLike = didLike
+            }
+        }else {
+            self.posts.forEach { (post) in
+                PostService.chekcIfUserLikePost(post: post) { (didLike) in
+                    //print("debug : does user like \(post.caption) ? -> \(didLike)")
+                    if let index = self.posts.firstIndex(where: { $0.postId == post.postId }) {
+                        self.posts[index].didLike = didLike
+                    }
                 }
-                
-                
             }
         }
     }
