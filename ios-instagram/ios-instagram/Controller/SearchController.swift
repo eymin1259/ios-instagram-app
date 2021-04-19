@@ -71,7 +71,7 @@ extension SearchController {
     }
 }
 
-// didSelectRowAt : get a information of the clicked user
+// MARK: didSelectRowAt : get a information of the clicked user
 extension SearchController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let user =  isSearchMode ? filteredUsers[indexPath.row] : users[indexPath.row]

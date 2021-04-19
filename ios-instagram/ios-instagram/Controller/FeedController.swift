@@ -37,7 +37,7 @@ class FeedController : UICollectionViewController {
     func chekcIfUserLikePosts() {
         self.posts.forEach { (post) in
             PostService.chekcIfUserLikePost(post: post) { (didLike) in
-                print("debug : does user like \(post.caption) ? -> \(didLike)")
+                //print("debug : does user like \(post.caption) ? -> \(didLike)")
                 if let index = self.posts.firstIndex(where: { $0.postId == post.postId }) {
                     self.posts[index].didLike = didLike
                 }
@@ -89,6 +89,11 @@ class FeedController : UICollectionViewController {
     }
 }
 
+// 2 essential extensions for UICollectionViewController
+// - UICollectionViewController Datasource
+// - UICollectionViewDelegateFLowLayout
+
+
 // MARK: UICollectionViewDataSource
 extension FeedController {
     
@@ -130,6 +135,15 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
 }
 
 extension FeedController : FeedCellDelegate {
+
+    
+    func cell(_ cell: FeedCell, wantsToShowProfileOf uid: String) {
+        UserService.fetchUser(withUid: uid) { (user) in
+            let controller = ProfileController(withUser: user)
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+    }
+    
     func cell(_ cell: FeedCell, wantsToShowCommentsOf post: Post) {
         let controller = CommentController(collectionViewLayout: UICollectionViewFlowLayout())
         navigationController?.pushViewController(controller, animated: true)
@@ -139,6 +153,7 @@ extension FeedController : FeedCellDelegate {
         
         cell.postViewModel?.post.didLike.toggle()
         
+        // unlike post
         if post.didLike {
             PostService.unlikePost(post: post) { (error) in
                 if let error = error {
@@ -150,7 +165,8 @@ extension FeedController : FeedCellDelegate {
                 cell.tintColor = .black
                 cell.postViewModel?.post.likes = post.likes - 1
             }
-        }else {
+        }
+        else { // like post
             PostService.likePost(post: post) { (error) in
                 if let error = error {
                     print("debug : failed to like post -> \(error.localizedDescription)")
@@ -161,8 +177,20 @@ extension FeedController : FeedCellDelegate {
                 cell.likeButton.contentVerticalAlignment = .center
                 cell.likeButton.contentHorizontalAlignment = .center
                 cell.likeButton.imageEdgeInsets = UIEdgeInsets(top: 11, left: 7, bottom: 15, right: 7)
-                
                 cell.postViewModel?.post.likes = post.likes + 1
+
+                
+                //guard let currentUid = Auth.auth().currentUser?.uid else {return}
+                //UserService.fetchUser(withUid: currentUid) { (user) in
+                //    NotificationService.uploadNotification(toUid: post.ownerId, fromUser: user, type: .like, post: post)
+                //}
+                
+                // refactoring
+                guard let tab = self.tabBarController as? MainTapController else {return}
+                guard let user = tab.user else {
+                    return
+                }
+                NotificationService.uploadNotification(toUid: post.ownerId, fromUser: user, type: .like, post: post)
             }
         }
     }

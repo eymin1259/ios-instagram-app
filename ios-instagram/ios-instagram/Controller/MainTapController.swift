@@ -5,7 +5,7 @@ import YPImagePicker
 class MainTapController: UITabBarController {
     
     //MARK: properties
-    private var user: User? {
+     var user: User? {
         didSet {
             guard let user = self.user else {return}
             configureControllers(withUser: user)

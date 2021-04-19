@@ -132,6 +132,9 @@ extension ProfileController: ProfileHeaderDelegate {
     
     func header(_ profileHeader: ProfileHeader, didTapActionBtnFor user: User) {
         
+        guard let tab = tabBarController as? MainTapController else {return}
+        guard let currentUser = tab.user else {return}
+        
         if user.isCurrentUser {
             print("debug : show edit profile")
         }
@@ -144,7 +147,11 @@ extension ProfileController: ProfileHeaderDelegate {
             UserService.follow(uid: user.uid) { (error) in
                 self.user.isFollowed = true
                 self.collectionView.reloadData() // update ui
+                
+                NotificationService.uploadNotification(toUid: user.uid
+                                                       , fromUser: currentUser, type: .follow)
             }
+            
         }
     }
 

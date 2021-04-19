@@ -4,6 +4,7 @@ import UIKit
 protocol FeedCellDelegate: class {
     func cell(_ cell:FeedCell, wantsToShowCommentsOf post : Post)
     func cell(_ cell: FeedCell, didLike post : Post)
+    func cell(_ cell: FeedCell, wantsToShowProfileOf uid : String)
 }
 
 class FeedCell: UICollectionViewCell {
@@ -17,13 +18,17 @@ class FeedCell: UICollectionViewCell {
     }
     
     
-    private let profileImageView: UIImageView = {
+    private lazy var profileImageView: UIImageView = {
         let imgView = UIImageView()
         imgView.contentMode = .scaleAspectFill
         imgView.clipsToBounds = true
         imgView.isUserInteractionEnabled = true
         imgView.backgroundColor = .lightGray
-      //  imgView.image = #imageLiteral(resourceName: "venom-7")
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(showUserProfile))
+        imgView.isUserInteractionEnabled = true
+        imgView.addGestureRecognizer(tap)
+        
         return imgView
     }()
     
@@ -31,7 +36,7 @@ class FeedCell: UICollectionViewCell {
         let button = UIButton(type: .system)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
-        button.addTarget(self, action: #selector(didTapUsername), for: .touchUpInside)
+        button.addTarget(self, action: #selector(showUserProfile), for: .touchUpInside)
         return button
     }()
     
@@ -40,7 +45,7 @@ class FeedCell: UICollectionViewCell {
         imgView.contentMode = .scaleAspectFill
         imgView.clipsToBounds = true
         imgView.isUserInteractionEnabled = true
-     //   imgView.image = #imageLiteral(resourceName: "venom-7")
+        imgView.backgroundColor = .lightGray
         return imgView
     }()
     
@@ -149,8 +154,9 @@ class FeedCell: UICollectionViewCell {
         delegate?.cell(self, didLike: post)
     }
     
-    @objc func didTapUsername() {
-            print("debug : did tap username")
+    @objc func showUserProfile() {
+        guard let post = postViewModel?.post else { return}
+        delegate?.cell(self, wantsToShowProfileOf: post.ownerId)
     }
     
     @objc func handleCommentBtn() {

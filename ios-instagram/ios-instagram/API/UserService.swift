@@ -9,6 +9,25 @@ import Firebase
 
 
 struct UserService {
+    
+    static func fetchUser(withUid uid: String, completion: @escaping (User) -> Void) {
+        
+        COLLECTION_USERS.document(uid).getDocument { (snapshot, error) in
+            if let error = error{
+                print("debug : COLLECTION_USERS.document(uid).getDocument error -> \(error.localizedDescription)")
+                return
+            }
+            if let dataDictionary = snapshot?.data(){
+                let user = User(dictionary: dataDictionary)
+                completion(user)
+            }
+            else {
+                print("deubg : there is no uid")
+            }
+            
+        }
+    }
+    
     static func fetchUser(completion: @escaping (User) -> Void) {
 
         if let current_uid = Auth.auth().currentUser?.uid{
