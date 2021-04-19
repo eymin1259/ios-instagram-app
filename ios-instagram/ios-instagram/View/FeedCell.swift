@@ -1,8 +1,9 @@
 import UIKit
 
-// FeedCell의 정보를 FeedController를 거쳐 CommentController에게 전달하기 위해서 구현
+// FeedCell의 정보를 FeedController를 거쳐 다른 controller에게 전달하기 위해서 구현
 protocol FeedCellDelegate: class {
     func cell(_ cell:FeedCell, wantsToShowCommentsOf post : Post)
+    func cell(_ cell: FeedCell, didLike post : Post)
 }
 
 class FeedCell: UICollectionViewCell {
@@ -43,10 +44,11 @@ class FeedCell: UICollectionViewCell {
         return imgView
     }()
     
-    private lazy var likeButton: UIButton = {
+     lazy var likeButton: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "like_unselected"), for: .normal)
         button.tintColor = .black
+        button.addTarget(self, action: #selector(didTapLike), for: .touchUpInside)
         return button
     }()
     
@@ -65,7 +67,7 @@ class FeedCell: UICollectionViewCell {
         return button
     }()
     
-    private let likeLabel: UILabel = {
+    var likeLabel: UILabel = {
         let label = UILabel()
         label.text = "1 like"
         label.font = UIFont.boldSystemFont(ofSize: 13)
@@ -133,11 +135,22 @@ class FeedCell: UICollectionViewCell {
         profileImageView.sd_setImage(with: postViewModel.userProfileImageUrl)
         usernameButton.setTitle(postViewModel.username, for: .normal)
         likeLabel.text = postViewModel.likesLabelText
+        likeButton.setImage(postViewModel.likeBtnImage, for: .normal)
         
+        if postViewModel.post.didLike {
+            likeButton.contentVerticalAlignment = .center
+            likeButton.contentHorizontalAlignment = .center
+            likeButton.imageEdgeInsets = UIEdgeInsets(top: 11, left: 7, bottom: 15, right: 7)
+        }
+    }
+    
+    @objc func didTapLike() {
+        guard let post = postViewModel?.post else { return}
+        delegate?.cell(self, didLike: post)
     }
     
     @objc func didTapUsername() {
-            print("did tap username!")
+            print("debug : did tap username")
     }
     
     @objc func handleCommentBtn() {

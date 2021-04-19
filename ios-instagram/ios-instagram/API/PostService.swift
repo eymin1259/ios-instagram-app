@@ -68,4 +68,52 @@ struct PostService {
             
         }
     }
+    
+    static func likePost(post: Post, completion: @escaping(FirestoreCompletion)) {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        
+        COLLECTION_POSTS.document(post.postId).updateData(["likes" : post.likes + 1 ])
+        
+        // 해당 post를 어떤 user가 좋아하는지 저장
+        COLLECTION_POSTS.document(post.postId).collection("post-likes").document(uid).setData([:]) { (error) in
+            
+            // 해당 user가 어떤 post를 좋아하는지 저장
+            COLLECTION_USERS.document(uid).collection("user-likes").document(post.postId).setData([:], completion: completion)
+        }
+    }
+    
+    static func unlikePost(post: Post, completion: @escaping(FirestoreCompletion)){
+        
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        
+        guard post.likes > 0 else {
+            print("debug : unlike error -> post.likes <= 0")
+            return
+        }
+        
+        COLLECTION_POSTS.document(post.postId).updateData(["likes": post.likes - 1 ])
+        
+        // 해당 post를 어떤 user가 좋아하는지 삭제
+        COLLECTION_POSTS.document(post.postId).collection("post-likes").document(uid).delete { (error) in
+            
+            // 해당 user가 어떤 post를 좋아하는지 삭제
+            COLLECTION_USERS.document(uid).collection("user-likes").document(post.postId).delete(completion: completion)
+        }
+    }
+    
+    static func chekcIfUserLikePost(post: Post, completion: @escaping(Bool)->Void){
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        
+        // user가 좋아한 post 목록에 있는지 확인
+        COLLECTION_USERS.document(uid).collection("user-likes").document(post.postId).getDocument { (snapshot, error) in
+            guard let userDidLike = snapshot?.exists else {return}
+            completion(userDidLike)
+        }
+    }
 }

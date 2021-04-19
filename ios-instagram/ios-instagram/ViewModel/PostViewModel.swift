@@ -5,7 +5,7 @@
 //  Created by yongmin lee on 4/18/21.
 //
 
-import Foundation
+import UIKit
 
 struct PostViewModel {
      var post : Post
@@ -22,6 +22,13 @@ struct PostViewModel {
     var likes : Int {
         return post.likes
     }
+    
+    var likeBtnImage : UIImage? {
+        let imageName = post.didLike ? "red_like_selected" : "like_unselected"
+        return UIImage(named: imageName)
+    }
+    
+    
     
     var owenerId: String {
         return post.ownerId
